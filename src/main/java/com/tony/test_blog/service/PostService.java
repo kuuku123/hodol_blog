@@ -34,7 +34,7 @@ public class PostService {
 
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException());
+                .orElseThrow(PostNotFoundException::new);
 
         PostResponse response = PostResponse.builder()
                 .id(post.getId())
@@ -74,9 +74,9 @@ public class PostService {
     }
 
 
-    private Post findPostById(Long id) throws IllegalArgumentException {
+    private Post findPostById(Long id) throws PostNotFoundException {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException());
+                .orElseThrow(PostNotFoundException::new);
         return post;
     }
 }

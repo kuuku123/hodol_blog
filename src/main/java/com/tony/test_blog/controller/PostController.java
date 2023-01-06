@@ -1,6 +1,7 @@
 package com.tony.test_blog.controller;
 
 import com.tony.test_blog.domain.Post;
+import com.tony.test_blog.exception.InvalidRequestException;
 import com.tony.test_blog.request.PostCreate;
 import com.tony.test_blog.request.PostEdit;
 import com.tony.test_blog.request.PostSearch;
@@ -29,6 +30,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) {
+        request.validate();
         postService.write(request);
     }
 

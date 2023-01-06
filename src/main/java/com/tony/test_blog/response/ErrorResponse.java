@@ -1,9 +1,7 @@
 package com.tony.test_blog.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.val;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,14 +15,20 @@ import java.util.Map;
  *      }
  *  }
  */
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 @Getter
-@RequiredArgsConstructor
 @Builder
 public class ErrorResponse {
 
     private final String code;
     private final String message;
-    private final Map<String,String> validation = new HashMap<>();
+    private final Map<String,String> validation;
+
+    public ErrorResponse(String code, String message, Map<String, String> validation) {
+        this.code = code;
+        this.message = message;
+        this.validation = validation != null? validation : new HashMap<>();
+    }
 
     public void addValidation(String fieldName, String errorMessage) {
         this.validation.put(fieldName,errorMessage);
