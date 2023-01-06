@@ -1,6 +1,7 @@
 package com.tony.test_blog.service;
 
 import com.tony.test_blog.domain.Post;
+import com.tony.test_blog.exception.PostNotFoundException;
 import com.tony.test_blog.repository.PostRepository;
 import com.tony.test_blog.request.PostCreate;
 import com.tony.test_blog.request.PostEdit;
@@ -187,4 +188,64 @@ class PostServiceTest {
         assertEquals(0,postRepository.count());
     }
 
+    @Test
+    @DisplayName("글 1개 조회 - 존재하지 않는 글")
+    void test7() {
+        //given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+
+        postRepository.save(post);
+
+        //then
+        PostNotFoundException e = assertThrows(PostNotFoundException.class, () -> {
+            postService.get(post.getId() + 1L);
+        });
+
+        assertEquals("존재하지 않는 글입니다.",e.getMessage());
+
+    }
+    @Test
+    @DisplayName("글 삭제 - 존재하지 않는 글")
+    void test8() {
+        //given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+
+        postRepository.save(post);
+
+
+        //then
+        PostNotFoundException e = assertThrows(PostNotFoundException.class, () -> {
+            postService.delete(post.getId() + 1L);
+        });
+
+        assertEquals("존재하지 않는 글입니다.",e.getMessage());
+    }
+    @Test
+    @DisplayName("글 내용 수정 - 존재하지 않는 글")
+    void test9() {
+        //given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+
+        //then
+        PostNotFoundException e = assertThrows(PostNotFoundException.class, () -> {
+            postService.edit(post.getId() + 1L, postEdit);
+        });
+
+        assertEquals("존재하지 않는 글입니다.",e.getMessage());
+    }
 }

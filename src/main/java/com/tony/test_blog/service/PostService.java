@@ -2,6 +2,7 @@ package com.tony.test_blog.service;
 
 import com.tony.test_blog.domain.Post;
 import com.tony.test_blog.domain.PostEditor;
+import com.tony.test_blog.exception.PostNotFoundException;
 import com.tony.test_blog.repository.PostRepository;
 import com.tony.test_blog.request.PostCreate;
 import com.tony.test_blog.request.PostEdit;
@@ -33,7 +34,7 @@ public class PostService {
 
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(() -> new PostNotFoundException());
 
         PostResponse response = PostResponse.builder()
                 .id(post.getId())
@@ -75,7 +76,7 @@ public class PostService {
 
     private Post findPostById(Long id) throws IllegalArgumentException {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않습니다."));
+                .orElseThrow(() -> new PostNotFoundException());
         return post;
     }
 }
