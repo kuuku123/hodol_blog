@@ -36,26 +36,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-def querydslSrcDir = 'src/main/generated'
-sourceSets {
-    main {
-        java {
-            srcDirs += [ querydslSrcDir ]
-        }
-    }
-}
-
-compileJava {
-    options.compilerArgs << '-Aquerydsl.generatedAnnotationClass=javax.annotation.Generated'
-}
-
-tasks.withType(JavaCompile) {
-    options.generatedSourceOutputDirectory = file(querydslSrcDir)
-}
-
-clean {
-    delete file(querydslSrcDir)
-}
 
 
 tasks.named('test') {
