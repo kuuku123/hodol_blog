@@ -1,5 +1,6 @@
 package com.tony.test_blog.controller;
 
+import com.tony.test_blog.config.data.UserSession;
 import com.tony.test_blog.domain.Post;
 import com.tony.test_blog.exception.InvalidRequestException;
 import com.tony.test_blog.request.PostCreate;
@@ -28,9 +29,15 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "hello";
+    @GetMapping("/foo")
+    public String foo(UserSession userSession) {
+        log.info(">>> {}", userSession.name);
+        return userSession.name;
+    }
+
+    @GetMapping("/bar")
+    public String bar() {
+        return "no authentication";
     }
 
     @PostMapping("/posts")
