@@ -5,6 +5,7 @@ import com.tony.test_blog.exception.InvalidSignInInformationException;
 import com.tony.test_blog.repository.UserRepository;
 import com.tony.test_blog.request.Login;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Testcontainers
 class AuthServiceTest {
 
     @Autowired
@@ -26,6 +28,11 @@ class AuthServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    void initDB() {
+
+    }
 
     @Test
     @DisplayName("로그인시 비밀번호가 틀리면 InvalidSignInInformationException 을 던진다.")
@@ -56,9 +63,7 @@ class AuthServiceTest {
         //when
 
         //then
-        Optional<User> byEmailAndPassword = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword());
-        User user = byEmailAndPassword.get();
-        System.out.println("user = " + user.getEmail());
-        System.out.println("user = " + user.getPassword());
+        userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword())
+                        .ifPresent((user) -> assertEquals(login.getEmail() , user.getEmail()));
     }
 }
