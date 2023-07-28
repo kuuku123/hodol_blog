@@ -1,0 +1,1 @@
+insert into `user_table` (name, email, password ,created_at) values ('tony','tony@gmail.com','1234','2023-07-28 09:00:00')
