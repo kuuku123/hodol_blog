@@ -48,9 +48,11 @@ dependencies {
     // test Containers
     testImplementation "org.testcontainers:junit-jupiter:1.17.2"
     testImplementation "org.testcontainers:mysql:1.17.2" // mysql 컨테이너를 사용한다면 추가
+    testImplementation "org.testcontainers:postgresql:1.17.2" // mysql 컨테이너를 사용한다면 추가
 
 // DB Driver
     runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
